@@ -6,8 +6,8 @@
 
 ### Các bước chạy Project
 #### Tải project:
-- `git clone https://github.com/quannm290898/WQB-Crawl-Data.git`
-- `cd WQB-Crawl-Data`
+- `git clone https://github.com/Tranquocvinh98/Crawldata-Python`
+- `cd Crawldata-Python`
 
 #### Cài đặt môi trường
 - python3 -m pip install --user virtualenv 
