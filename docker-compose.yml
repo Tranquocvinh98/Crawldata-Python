@@ -1,0 +1,50 @@
+version: '3.8'
+
+networks:
+  crawl-data-service:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 5
+        window: 60s
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - crawl-data-service
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+  app:
+    build:
+      context: .
+    container_name: crawl_data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - .env
+    volumes:
+      - .:/app
+    command: python -u get_dataset_wq.py
+    networks:
+      - crawl-data-service
+
+

@@ -1,0 +1,5 @@
+anl39_cursharesoutstanding
+anl39_curfyearend
+anl39_curfperiodend
+anl39_curperiodtype
+anl39_xrefmap
